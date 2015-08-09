@@ -8,7 +8,7 @@ menu:
 subnav:
   github: "https://github.com/bjjvvv"
   weibo: "http://weibo.com/u/1771947202"
-  rss: /atom.xml 
+#  rss: /atom.xml 
   #douban: "#"
   #mail: "#"
   #facebook: "#"
@@ -23,9 +23,15 @@ excerpt_link: more
 fancybox: true
 mathjax: true
 
+# 是否开启动画效果
+animate: true
+
+# 是否在新窗口打开链接
+open_in_new: false
+
 # Miscellaneous
 google_analytics: ''
-favicon: /favicon.png
+favicon: "http://7xj4xg.com1.z0.glb.clouddn.com/favicon.png"
 
 #你的头像url
 avatar: "http://7xj4xg.com1.z0.glb.clouddn.com/favicon.png"
