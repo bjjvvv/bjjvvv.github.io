@@ -1,6 +1,7 @@
 title: Hello World
 categories:
-- hexo,text
+- hexo
+- text
 tags:
 - hexo
 - helloworld
