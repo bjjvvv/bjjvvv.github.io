@@ -74,6 +74,6 @@ deploy:
 - type: git
   repo: git@github.com:bjjvvv/bjjvvv.github.io.git
   branch: master
-- # type: git
-  # repo: git@gitcafe.com:bjjvvv/bjjvvv.git
-  # branch: gitcafe-pages
+# type: git
+# repo: git@gitcafe.com:bjjvvv/bjjvvv.git
+# branch: gitcafe-pages
