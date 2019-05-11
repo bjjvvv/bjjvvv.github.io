@@ -64,10 +64,6 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 theme: minos
 
-# duoshuo
-duoshuo_shortname: bjjvvv
-
-
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
