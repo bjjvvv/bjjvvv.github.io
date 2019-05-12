@@ -163,93 +163,9 @@
 <li>OAuth 1.0 - 3 legged &amp; 2 legged</li>
 <li>OAuth 2.0 - Authentication Code &amp; Client Credential</li>
 </ul>
-<h3 id="HTTP-Basic"><a href="#HTTP-Basic" class="headerlink" title="HTTP Basic"></a>HTTP Basic</h3><p>将 username:password 用 base64 编码</p>
-<p>传输时带上 HTTP 头， <figure class="highlight plain hljs"><figcaption><span>Basic aGFvZW86Y29vbHNoZWxsCg```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">服务端进行认证，失败返回 401</span><br><span class="line"></span><br><span class="line">### Digest Access (HTTP 摘要认证_)</span><br><span class="line">主要思路，将账号密码进行散列（MD5），并通过服务端和客户端生成随机数来增强散列</span><br><span class="line"></span><br><span class="line">优点: 密码没有明文传输，只传输了 MD5</span><br><span class="line"></span><br><span class="line">问题: 简短密码仍存在暴力破解问题</span><br><span class="line"></span><br><span class="line">### App Secret Key + HMAC</span><br><span class="line">MAC – Message Authentication Code, 是一种给消息签名的技术</span><br><span class="line"></span><br><span class="line">HMAC - HMAC – Hash-based Authenticsation Code, 使用 HASH 的签名技术, 如 SHA-256</span><br><span class="line"></span><br><span class="line">App ID - 标识 API 的调用方. 用来映射加密的密钥, 服务端可以生成多个密钥对 (AppID, APPSecret)</span><br><span class="line"></span><br><span class="line">优点: 根据不同的 APPSecret 可以控制权限的粒度。</span><br><span class="line"></span><br><span class="line">问题: 没有统一的规范，各家实现都不相同</span><br><span class="line"></span><br><span class="line">例子: AWS</span><br><span class="line"></span><br><span class="line">### JWT - JSON Web Tokens</span><br><span class="line">JWT 一个比较标准的认证解决方案, 也是一种 MAC (Message Authentication Code) 的方法。</span><br><span class="line"></span><br><span class="line">JWT 认证流程:</span><br><span class="line">1. 用户发送账号密码到服务端请求认证</span><br><span class="line">2. 服务器认证账号密码后，生成 JWT Token  </span><br><span class="line">   Token 生成过程：</span><br><span class="line">     - 认证服务器会生成 Secret Key (密钥)</span><br><span class="line">     - 对 JWT Header 和 JWT Playload 分别求 Base64. 在 playload 可能包括了用户的抽象 ID 和过期时间</span><br><span class="line">     - 用密钥对 JWT 签名, 生成 signature</span><br></pre></td></tr></table></figure></p>
-<pre><code>HMAC-SHA256(SecertKey, Base64UrlEncode(JWT-Header)+&apos;.&apos;+Base64UrlEncode(JWT-Payload));
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">3. 然后把 ```base64(header).base64(payload).signature``` 作为 JWT token 返回给客户端</span><br><span class="line">4. 客户端每次请求都带上 token</span><br><span class="line">   </span><br><span class="line">服务器收到请求后:</span><br><span class="line">1. 检查 JWT Token, 确认是有效的</span><br><span class="line">2. 因为只有认证服务器有用户的 Secret Key, 所以应用服务器需要将 JWT Token 传给认证服务器</span><br><span class="line">3. 认证服务器通过 JWT Payload 解出用户的抽象 ID, 找到对应的 Secret Key, 检查签名</span><br><span class="line">4. 认证服务器确认后, 应用服务器就知道是合法请求了</span><br><span class="line"></span><br><span class="line">JWT 除了支持 HMAC-SHA256 的算法外, 还支持 RSA 的非对称加密算法</span><br><span class="line"></span><br><span class="line">使用 RSA, 认证服务器用私钥加密，应用服务器用公钥解密。因为 RSA 是一个比较慢的算法, 并且对于越大的数据花费的时间越久. 所以可以进行一次简单的 SHA256 散列, 再对哈希码进行一次 RSA 签名</span><br><span class="line"></span><br><span class="line">最后需要定期更换公钥私钥对</span><br><span class="line"></span><br><span class="line">&gt; 其实一般项目, 不会单独设立认证服务器, 甚至 Secret Key 也不是每个用户都单独生成 </span><br><span class="line"></span><br><span class="line">### OAuth 1.0</span><br><span class="line">协议的三个角色:</span><br><span class="line">- User 用户</span><br><span class="line">- Consumer 第三方服务</span><br><span class="line">- Service Provider 服务提供方</span><br><span class="line"></span><br><span class="line">用户需要使用第三方服务，第三方服务需要从服务提供方获取用户的资源</span><br><span class="line"></span><br><span class="line">授权过程:</span><br><span class="line">1. Consumer 先上 Service Provider 注册, 获取开发的 Consumer Key 和 Consumer Secret</span><br><span class="line">2. 当 User 访问 Consumer 时, Consumer 想 Service Provider 发起请求, 获取 Request Token (用于对 HTTP 请求签名)</span><br><span class="line">3. Serivce Provider 验明 Consumer 是注册过的第三方服务商后, 返回 Request Token (**oauth_token**) 和 </span><br><span class="line">   Request Token Secret (**oauth_token_secret**)</span><br><span class="line">4. Consumer 收到 Request Token 后, 使用 HTTP GET 请求把 User 重定向到 Service Provider 的认证页 (其中带上 </span><br><span class="line">   Reqquest Token)， 让用户输入 账号和口令</span><br><span class="line">5. Service Provider 认证 User 后, 跳回 Consumer, 并返回 Request Token (**oauth_token**) 和 Verification Code </span><br><span class="line">   (**oauth_verifer**)</span><br><span class="line">6. 接下来就是签名请求, 用 Request Token 和 Verifiction Code 换取 Access Token (oauth_token) 和 Access Token </span><br><span class="line">   Secret (**oauth_token_secret**)</span><br><span class="line">7. 最后使用 Access Token 访问用户授权访问的资源</span><br><span class="line"></span><br><span class="line">这种三方参与的叫做 3-legged flow, 也有用户不参与的 2-legged flow.</span><br><span class="line"></span><br><span class="line">OAuth 中的签名:</span><br><span class="line">- 其中有两个密钥, 一个是在 Serivice Provider 中注册颁发的 Consumer Secret, 另一个是 Token Secret</span><br><span class="line">- 签名密钥就是由这两个密钥拼接而城的, 其中用 ```&amp;``` 作连接符号. 假设 Consumer Secret 为 ```dd2j3j3ke```, Token</span><br><span class="line">  Secret 为 ```s2k2j32kk```, 最终的签名密钥就是 ```dd2j3j3ke&amp;s2k2j32kk</span><br></pre></td></tr></table></figure>
-</code></pre><ul>
-<li>在请求 Reqeust/Access Token 的时候需要对整个 HTTP 请求进行签名 (使用 HMAC-SHA1 和 HMAC-RSA1 签名算法), 其中<br>请求头中需要包括一些 OAuth 需要的字段, 如:<ul>
-<li>Consumer Key: 也就是所谓的 AppID</li>
-<li>Token: Request Token 或 Access Token</li>
-<li>Signature Method: 签名算法, 比如: HMAC-SHA1</li>
-<li>Timestamp: 过期时间</li>
-<li>Nonce: 随机字符串</li>
-<li>Call Back: 回调 URL</li>
-</ul>
-</li>
-</ul>
-<p>原理: 签名同时使用了用户的密钥和第三方服务的密钥, 所以可以同时对用户和第三方进行认证. Service Provider 根据 Consumer Key<br>和 Request Token 查找对应的 Secret, 同样拼接后进行签名认证.</p>
-<h2 id="OAuth-2-0"><a href="#OAuth-2-0" class="headerlink" title="OAuth 2.0"></a>OAuth 2.0</h2><p>以前的 HTTP 请求都需要用 HASH 或 RSA 进行签名. 主要原因是以前 HTTP 都是明文传输, 容易被篡改, 所以需要用签名来保证安全.</p>
-<p>使用签名的方式是比较复杂的, 对开发者也是很不友好. 在组织 HTTP 报文的时候需要各种 URLEncode 和 Base64, 还要对 query 的参数进行排序, 有的方法还要层层签名, 非常容易出错. 另外这种安全力度比较低, 授权也比较单一, 对于有终端用户参与的移动端有点不够.</p>
-<p>OAuth 2.0 依赖于 TLS/SSL 的链路加密技术 (HTTPS), 完全放弃了签名的方式. 所以 1.0 和 2.0 是完全不同, 不兼容的.</p>
-<p>OAuto 2.0 的两个主要的 Flow:</p>
-<ul>
-<li>OAuthorization Code Flow, 这是 3 legged 的</li>
-<li>Client Credential Flow, 这个是 2 legged 的</li>
-</ul>
-<h3 id="OAuthorization-Code-Flow"><a href="#OAuthorization-Code-Flow" class="headerlink" title="OAuthorization Code Flow"></a>OAuthorization Code Flow</h3><p>Authorization Code Flow 是最常使用的 OAuth 2.0 的授权许可类型, 适用于用户给第三方应用授权访问自己信息的场景.</p>
-<p>流程:</p>
-<ol>
-<li>当用户 (Resource Owner) 访问第三方应用时 (Client) 的时候, 第三方应用会把用户带到认证服务器 (Authorization Server)<br>上去, 主要请求的是 <figure class="highlight plain hljs"><figcaption><span>API, 其中请求方式如下</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">https://login.authorization-server.com/authorize?</span><br><span class="line">        client_id=6731de76-14a6-49ae-97bc-6eba6914391e</span><br><span class="line">        &amp;response_type=code</span><br><span class="line">        &amp;redirect_uri=http%3A%2F%2Fexample-client.com%2Fcallback%2F</span><br><span class="line">        &amp;scope=read</span><br><span class="line">        &amp;state=xcoiv98CoolShell3kch</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>其中: </p>
-<ul>
-<li>client_id 为第三方应用的 AppID</li>
-<li>response_type=code, 告诉认证服务器, 走的是 OAuthorization Code Flow</li>
-<li>redirect_uri, 意思是我跳转回第三方应用的 URL</li>
-<li>scope 是相关的权限</li>
-<li>state 是一个随机字符串, 防止 CSRF 攻击</li>
-</ul>
-<ol start="2">
-<li>当 Authorization Server 收到请求后, 会通过 client_id 来检查 redirect_uri 和 scope 是否合法, 如果合法, 则让用户进行登录授权</li>
-<li><p>当用户授权同意后, Authorization Server 会跳转回 Client, 并加上 Authorization Code.<br>如:</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://example-client.com/callback?</span><br><span class="line">    code=Yzk5ZDczMzRlNDEwYlrEqdFSBzjqfTG</span><br><span class="line">    &amp;state=xcoiv98CoolShell3kch</span><br></pre></td></tr></table></figure>
-<p> 其中</p>
-<ul>
-<li>请求的链接为 1) 中的 redirect_uri.</li>
-<li>state 为 1) 中的 state</li>
-</ul>
-</li>
-<li><p>Client 就可以使用 Authorization Code 获得 Access Token. 其需要想 Authorization Server 发出的请求如下:</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /oauth/token HTTP/1.1</span><br><span class="line">Host: authorization-server.com</span><br><span class="line"></span><br><span class="line">code=Yzk5ZDczMzRlNDEwYlrEqdFSBzjqfTG</span><br><span class="line">&amp;grant_type=code</span><br><span class="line">&amp;redirect_uri=https%3A%2F%2Fexample-client.com%2Fcallback%2F</span><br><span class="line">&amp;client_id=6731de76-14a6-49ae-97bc-6eba6914391e</span><br><span class="line">&amp;client_secret=JqQX2PNo9bpM0uEihUPzyrh</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果没有问题, Authorization Server 会返回如下:</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;access_token&quot;: &quot;iJKV1QiLCJhbGciOiJSUzI1NiI&quot;,</span><br><span class="line">    &quot;refresh_token&quot;: &quot;1KaPlrEqdFSBzjqfTGAMxZGU&quot;,</span><br><span class="line">    &quot;token_type&quot;: &quot;bearer&quot;,</span><br><span class="line">    &quot;expires&quot;: 3600,</span><br><span class="line">    &quot;id_token&quot;: &quot;eyJ0eXAiOiJKV1QiLCJhbGciO.eyJhdWQiOiIyZDRkM...&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 其中</p>
-<ul>
-<li>access_token 就是访问令牌</li>
-<li>refresh_token 用于刷新 access_token</li>
-<li>id_token 就是 JWT 的 token, 其中会包含用户的 OpenID</li>
-</ul>
-</li>
-<li><p>用 Access Token 请求用户的资源</p>
- <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /v1/user/pictures</span><br><span class="line">Host: https://example.resource.com</span><br><span class="line"></span><br><span class="line">Authorization: Bearer iJKV1QiLCJhbGciOiJSUzI1NiI</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="Client-Credential-Flow"><a href="#Client-Credential-Flow" class="headerlink" title="Client Credential Flow"></a>Client Credential Flow</h3><p>没有用户参与</p>
-<p>Client 用 client_id 和 client_secret 向 Authorization Server 要一个 Access Token, 然后使用 Access Token 访问资源</p>
-<p>请求实例:<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /token HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">grant_type=client_credentials</span><br><span class="line">&amp;client_id=czZCaGRSa3F0Mzpn</span><br><span class="line">&amp;client_secret=7Fjfp0ZBr1KtDRbnfVdmIw</span><br></pre></td></tr></table></figure></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><p>区分两个概念, Authentication (认证) 和 Authorization (授权). 认证是必须是本人, 通过密码, 短信认证, 人脸识别等等.<br>而授权则不需要证明是本人, token 即授权</p>
-</li>
-<li><p>区分三个概念: 编码 Base64Encode, 签名 HMAC, 加密 RSA. 编码是为了方便传输, 等同明文, 签名是为了保证信息没有被篡改,<br>加密是不要别人看到是什么信息</p>
-</li>
-</ul>
-<h2 id="明白一些初衷"><a href="#明白一些初衷" class="headerlink" title="明白一些初衷"></a>明白一些初衷</h2><ul>
-<li>使用复杂地HMAC哈希签名方式主要是应对当年没有TLS/SSL加密链路的情况。</li>
-<li>JWT把 uid 放在 Token中目的是为了去掉状态，但不能让用户修改，所以需要签名。</li>
-<li>OAuth 1.0区分了两个事，一个是第三方的Client，一个是真正的用户，其先拿Request Token，再换Access Token的方法主要是为了把<br>第三方应用和用户区分开来。</li>
-<li>用户的Password是用户自己设置的，复杂度不可控，服务端颁发的Serect会很复杂，但主要目的是为了容易管理，可以随时注销掉。</li>
-<li>OAuth 协议有比所有认证协议有更为灵活完善的配置，如果使用AppID/AppSecret签名的方式，又需要做到可以有不同的权限和可以随时<br>注销，那么你得开发一个像AWS的IAM这样的账号和密钥对管理的系统。<h2 id="相关的注意事项"><a href="#相关的注意事项" class="headerlink" title="相关的注意事项"></a>相关的注意事项</h2></li>
-<li>无论是哪种方式，我们都应该遵循HTTP的规范，把认证信息放在 Authorization HTTP 头中。</li>
-<li>不要使用GET的方式在URL中放入secret之类的东西，因为很多proxy或gateway的软件会把整个URL记在Access Log文件中。</li>
-<li>密钥Secret相当于Password，但他是用来加密的，最好不要在网络上传输，如果要传输，最好使用TLS/SSL的安全链路。</li>
-<li>HMAC中无论是MD5还是SHA1/SHA2，其计算都是非常快的，RSA的非对称加密是比较耗CPU的，尤其是要加密的字符串很长的时候。</li>
-<li>最好不要在程序中hard code 你的 Secret，因为在github上有很多黑客的软件在监视各种Secret，千万小心！这类的东西应该放在你的- 配置系统或是部署系统中，在程序启动时设置在配置文件或是环境变量中。</li>
-<li>使用AppID/AppSecret，还是使用OAuth1.0a，还是OAuth2.0，还是使用JWT，我个人建议使用TLS/SSL下的OAuth 2.0。</li>
-<li>密钥是需要被管理的，管理就是可以新增可以撤销，可以设置账户和相关的权限。最好密钥是可以被自动更换的。<br>认证授权服务器（Authorization Server）和应用服务器（App Server）最好分开。</li>
-</ul>
-
+        <p class="article-more-link">
+            <a href="/2019-05-12-http-authorization/#more">Read More</a>
+        </p>
     
     </div>
     
@@ -324,21 +240,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script>
     MathJax.Hub.Config({
-        "HTML-CSS": {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
     });
 </script>
 
@@ -374,11 +278,6 @@
             color: #9a9a9a;
             background: none;
             border: none;
-            cursor: pointer;
-        }
-
-        .hljs .clipboard-btn:hover {
-          color: #8a8a8a;
         }
 
         .hljs > .clipboard-btn {
@@ -420,9 +319,6 @@
             return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
           }
         });
-        clipboard.on('success', function(e) {
-          e.clearSelection();
-        })
       })
     </script>
 
