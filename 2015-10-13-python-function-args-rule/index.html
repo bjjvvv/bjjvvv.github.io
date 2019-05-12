@@ -14,18 +14,18 @@
 
 
 
-    <meta name="description" content="位置参数12def fun(a):    pass">
+    <meta name="description" content="位置参数">
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 函数的参数规则">
 <meta property="og:url" content="http://bjjvvv.github.io/2015-10-13-python-function-args-rule/index.html">
 <meta property="og:site_name" content="Bplusplus&#39;s blog">
-<meta property="og:description" content="位置参数12def fun(a):    pass">
+<meta property="og:description" content="位置参数">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-05-11T09:58:36.152Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 函数的参数规则">
-<meta name="twitter:description" content="位置参数12def fun(a):    pass">
+<meta name="twitter:description" content="位置参数">
 
 
 
@@ -108,13 +108,13 @@
         
         <div class="navbar-menu navbar-end">
             
-            <a class="navbar-item search" title="Search" href="javascript:;">
+            <a class="navbar-item search" title="Chercher" href="javascript:;">
                 <i class="fas fa-search"></i>
             </a>
             
             
             <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
-                <a class="navbar-item" title="Table of Contents">
+                <a class="navbar-item" title="Table des Matières">
                     <i class="fa fa-list"></i>
                 </a>
                 <div class="navbar-dropdown is-right">
@@ -186,7 +186,7 @@
         <span class="column is-narrow">
             
             
-            2 分钟 read (About 309 words)
+            2 分钟 lire (À propos 309 mots)
         </span>
         
     </div>
@@ -297,9 +297,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script>
     MathJax.Hub.Config({
-        "HTML-CSS": {matchFontHeight: false},
-        SVG: {matchFontHeight: false},
-        CommonHTML: {matchFontHeight: false}
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
     });
 </script>
 
@@ -335,6 +347,11 @@
             color: #9a9a9a;
             background: none;
             border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
         }
 
         .hljs > .clipboard-btn {
@@ -376,6 +393,9 @@
             return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
           }
         });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
       })
     </script>
 
@@ -392,7 +412,7 @@
     <div class="searchbox-mask"></div>
     <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Que voulez-vous chercher ?">
             <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="searchbox-result-wrapper ins-section-wrapper">
@@ -406,9 +426,9 @@
             TRANSLATION: {
                 POSTS: 'Posts',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
+                CATEGORIES: 'Catégories',
                 TAGS: 'Tags',
-                UNTITLED: '(Untitled)',
+                UNTITLED: '(Sans Titre)',
             },
             CONTENT_URL: '/content.json',
         };
