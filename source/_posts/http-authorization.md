@@ -136,12 +136,12 @@ Authorization Code Flow 是最常使用的 OAuth 2.0 的授权许可类型, 适�
             &scope=read
             &state=xcoiv98CoolShell3kch
     ```
-其中: 
-- client_id 为第三方应用的 AppID
-- response_type=code, 告诉认证服务器, 走的是 OAuthorization Code Flow
-- redirect_uri, 意思是我跳转回第三方应用的 URL
-- scope 是相关的权限
-- state 是一个随机字符串, 防止 CSRF 攻击
+    其中: 
+    - client_id 为第三方应用的 AppID
+    - response_type=code, 告诉认证服务器, 走的是 OAuthorization Code Flow
+    - redirect_uri, 意思是我跳转回第三方应用的 URL
+    - scope 是相关的权限
+    - state 是一个随机字符串, 防止 CSRF 攻击
 
 2. 当 Authorization Server 收到请求后, 会通过 client_id 来检查 redirect_uri 和 scope 是否合法, 如果合法, 则让用户进行登录授权
 3. 当用户授权同意后, Authorization Server 会跳转回 Client, 并加上 Authorization Code.
@@ -221,6 +221,7 @@ grant_type=client_credentials
 - 用户的Password是用户自己设置的，复杂度不可控，服务端颁发的Serect会很复杂，但主要目的是为了容易管理，可以随时注销掉。
 - OAuth 协议有比所有认证协议有更为灵活完善的配置，如果使用AppID/AppSecret签名的方式，又需要做到可以有不同的权限和可以随时
   注销，那么你得开发一个像AWS的IAM这样的账号和密钥对管理的系统。
+
 ## 相关的注意事项
 - 无论是哪种方式，我们都应该遵循HTTP的规范，把认证信息放在 Authorization HTTP 头中。
 - 不要使用GET的方式在URL中放入secret之类的东西，因为很多proxy或gateway的软件会把整个URL记在Access Log文件中。
