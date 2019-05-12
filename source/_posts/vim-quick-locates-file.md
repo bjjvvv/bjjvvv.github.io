@@ -12,6 +12,7 @@ Linux 中 vim 默认 path
 ```vim
 path=.,/usr/include,,
 ```
+
 <!--more-->
 即会在当前文件所在目录，/usr/include目录以及**当前目录**（vim中cd指定，pwd显示的目录）中搜索。可以用 :set path+={dir} 添加至搜索路径。
 因为不能递归搜索，所以即使当前目录为项目路径，也不能对所有文件进行搜索。

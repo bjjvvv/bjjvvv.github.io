@@ -9,6 +9,7 @@ tags:
 def fun(a):
     pass
 ```
+
 <!--more-->
 ## 任意多的位置参数
 ```python
