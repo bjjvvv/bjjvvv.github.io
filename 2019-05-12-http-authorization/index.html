@@ -22,7 +22,7 @@
 <meta property="og:site_name" content="Bplusplus&#39;s blog">
 <meta property="og:description" content="Ref 酷壳 HTTP API 认证授权术  主要的几种 HTTP 认证方式:  HTTP Basic Digest Assess App Secret Key + HMAC JWT - JSON WEB TOKEN OAuth 1.0 - 3 legged &amp;amp; 2 legged OAuth 2.0 - Authentication Code &amp;amp; Client Credentia">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-12T13:27:58.428Z">
+<meta property="og:updated_time" content="2019-05-12T13:35:18.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http api 认证授权技术, OAuth (Open Authorization)">
 <meta name="twitter:description" content="Ref 酷壳 HTTP API 认证授权术  主要的几种 HTTP 认证方式:  HTTP Basic Digest Assess App Secret Key + HMAC JWT - JSON WEB TOKEN OAuth 1.0 - 3 legged &amp;amp; 2 legged OAuth 2.0 - Authentication Code &amp;amp; Client Credentia">
@@ -306,10 +306,9 @@
 <h3 id="OAuthorization-Code-Flow"><a href="#OAuthorization-Code-Flow" class="headerlink" title="OAuthorization Code Flow"></a>OAuthorization Code Flow</h3><p>Authorization Code Flow 是最常使用的 OAuth 2.0 的授权许可类型, 适用于用户给第三方应用授权访问自己信息的场景.</p>
 <p>流程:</p>
 <ol>
-<li>当用户 (Resource Owner) 访问第三方应用时 (Client) 的时候, 第三方应用会把用户带到认证服务器 (Authorization Server)<br> 上去, 主要请求的是 \authorize API, 其中请求方式如下 <figure class="highlight perl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="hljs-regexp">//login</span>.authorization-server.com/authorize?</span><br><span class="line">        client_id=<span class="hljs-number">6731</span>de76-<span class="hljs-number">14</span>a6-<span class="hljs-number">49</span>ae-<span class="hljs-number">97</span>bc-<span class="hljs-number">6</span>eba6914391e</span><br><span class="line">        &amp;response_type=code</span><br><span class="line">        &amp;redirect_uri=http%3A%2F%2Fexample-client.com%2Fcallback%2F</span><br><span class="line">        &amp;scope=<span class="hljs-keyword">read</span></span><br><span class="line">        &amp;<span class="hljs-keyword">state</span>=xcoiv98CoolShell3kch</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>其中: </p>
+<li><p>当用户 (Resource Owner) 访问第三方应用时 (Client) 的时候, 第三方应用会把用户带到认证服务器 (Authorization Server)<br> 上去, 主要请求的是 \authorize API, 其中请求方式如下</p>
+ <figure class="highlight perl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="hljs-regexp">//login</span>.authorization-server.com/authorize?</span><br><span class="line">        client_id=<span class="hljs-number">6731</span>de76-<span class="hljs-number">14</span>a6-<span class="hljs-number">49</span>ae-<span class="hljs-number">97</span>bc-<span class="hljs-number">6</span>eba6914391e</span><br><span class="line">        &amp;response_type=code</span><br><span class="line">        &amp;redirect_uri=http%3A%2F%2Fexample-client.com%2Fcallback%2F</span><br><span class="line">        &amp;scope=<span class="hljs-keyword">read</span></span><br><span class="line">        &amp;<span class="hljs-keyword">state</span>=xcoiv98CoolShell3kch</span><br></pre></td></tr></table></figure>
+<p> 其中: </p>
 <ul>
 <li>client_id 为第三方应用的 AppID</li>
 <li>response_type=code, 告诉认证服务器, 走的是 OAuthorization Code Flow</li>
@@ -317,8 +316,9 @@
 <li>scope 是相关的权限</li>
 <li>state 是一个随机字符串, 防止 CSRF 攻击</li>
 </ul>
-<ol start="2">
-<li>当 Authorization Server 收到请求后, 会通过 client_id 来检查 redirect_uri 和 scope 是否合法, 如果合法, 则让用户进行登录授权</li>
+</li>
+<li><p>当 Authorization Server 收到请求后, 会通过 client_id 来检查 redirect_uri 和 scope 是否合法, 如果合法, 则让用户进行登录授权</p>
+</li>
 <li><p>当用户授权同意后, Authorization Server 会跳转回 Client, 并加上 Authorization Code.<br>如:</p>
  <figure class="highlight pf hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://example-client.com/callback?</span><br><span class="line">    code=Yzk5ZDczMzRlNDEwYlrEqdFSBzjqfTG</span><br><span class="line">    &amp;<span class="hljs-keyword">state</span>=xcoiv98CoolShell3kch</span><br></pre></td></tr></table></figure>
 <p> 其中</p>
@@ -357,7 +357,9 @@
 <li>JWT把 uid 放在 Token中目的是为了去掉状态，但不能让用户修改，所以需要签名。</li>
 <li>OAuth 1.0区分了两个事，一个是第三方的Client，一个是真正的用户，其先拿Request Token，再换Access Token的方法主要是为了把<br>第三方应用和用户区分开来。</li>
 <li>用户的Password是用户自己设置的，复杂度不可控，服务端颁发的Serect会很复杂，但主要目的是为了容易管理，可以随时注销掉。</li>
-<li>OAuth 协议有比所有认证协议有更为灵活完善的配置，如果使用AppID/AppSecret签名的方式，又需要做到可以有不同的权限和可以随时<br>注销，那么你得开发一个像AWS的IAM这样的账号和密钥对管理的系统。<h2 id="相关的注意事项"><a href="#相关的注意事项" class="headerlink" title="相关的注意事项"></a>相关的注意事项</h2></li>
+<li>OAuth 协议有比所有认证协议有更为灵活完善的配置，如果使用AppID/AppSecret签名的方式，又需要做到可以有不同的权限和可以随时<br>注销，那么你得开发一个像AWS的IAM这样的账号和密钥对管理的系统。</li>
+</ul>
+<h2 id="相关的注意事项"><a href="#相关的注意事项" class="headerlink" title="相关的注意事项"></a>相关的注意事项</h2><ul>
 <li>无论是哪种方式，我们都应该遵循HTTP的规范，把认证信息放在 Authorization HTTP 头中。</li>
 <li>不要使用GET的方式在URL中放入secret之类的东西，因为很多proxy或gateway的软件会把整个URL记在Access Log文件中。</li>
 <li>密钥Secret相当于Password，但他是用来加密的，最好不要在网络上传输，如果要传输，最好使用TLS/SSL的安全链路。</li>
