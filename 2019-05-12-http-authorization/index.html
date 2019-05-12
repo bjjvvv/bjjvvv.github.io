@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Bplusplus&#39;s blog</title>
+<title>http api 认证授权技术, OAuth (Open Authorization) - Bplusplus&#39;s blog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -14,13 +14,18 @@
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Bplusplus&#39;s blog">
-<meta property="og:url" content="http://bjjvvv.github.io/index.html">
+    <meta name="description" content="Ref 酷壳 HTTP API 认证授权术  主要的几种 HTTP 认证方式:  HTTP Basic Digest Assess App Secret Key + HMAC JWT - JSON WEB TOKEN OAuth 1.0 - 3 legged &amp;amp; 2 legged OAuth 2.0 - Authentication Code &amp;amp; Client Credentia">
+<meta name="keywords" content="http 认证授权">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http api 认证授权技术, OAuth (Open Authorization)">
+<meta property="og:url" content="http://bjjvvv.github.io/2019-05-12-http-authorization/index.html">
 <meta property="og:site_name" content="Bplusplus&#39;s blog">
+<meta property="og:description" content="Ref 酷壳 HTTP API 认证授权术  主要的几种 HTTP 认证方式:  HTTP Basic Digest Assess App Secret Key + HMAC JWT - JSON WEB TOKEN OAuth 1.0 - 3 legged &amp;amp; 2 legged OAuth 2.0 - Authentication Code &amp;amp; Client Credentia">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-12T12:25:22.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bplusplus&#39;s blog">
+<meta name="twitter:title" content="http api 认证授权技术, OAuth (Open Authorization)">
+<meta name="twitter:description" content="Ref 酷壳 HTTP API 认证授权术  主要的几种 HTTP 认证方式:  HTTP Basic Digest Assess App Secret Key + HMAC JWT - JSON WEB TOKEN OAuth 1.0 - 3 legged &amp;amp; 2 legged OAuth 2.0 - Authentication Code &amp;amp; Client Credentia">
 
 
 
@@ -108,6 +113,50 @@
             </a>
             
             
+            <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
+                <a class="navbar-item" title="Table of Contents">
+                    <i class="fa fa-list"></i>
+                </a>
+                <div class="navbar-dropdown is-right">
+                    
+                    
+                    
+                    
+                    <a class="navbar-item" href="#HTTP-Basic">1.1&nbsp;&nbsp;HTTP Basic</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#OAuth-2-0">2&nbsp;&nbsp;<b>OAuth 2.0</b></a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#OAuthorization-Code-Flow">2.1&nbsp;&nbsp;OAuthorization Code Flow</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#Client-Credential-Flow">2.2&nbsp;&nbsp;Client Credential Flow</a>
+                    
+                    
+                    
+                    <a class="navbar-item" href="#小结">2.3&nbsp;&nbsp;小结</a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#明白一些初衷">3&nbsp;&nbsp;<b>明白一些初衷</b></a>
+                    
+                    
+                    <hr class="navbar-divider">
+                    
+                    
+                    <a class="navbar-item" href="#相关的注意事项">4&nbsp;&nbsp;<b>相关的注意事项</b></a>
+                    
+                </div>
+            </div>
+            
             
             <a class="navbar-item" title="GitHub" href="https://github.com/bjjvvv">
                 
@@ -122,11 +171,10 @@
 
     <section class="section">
     <div class="container">
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
+    <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2019-05-12-http-authorization/" itemprop="url">http api 认证授权技术, OAuth (Open Authorization)</a>
+            http api 认证授权技术, OAuth (Open Authorization)
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
@@ -246,85 +294,29 @@
     
     </div>
     
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/http-认证授权/">#http 认证授权</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop is-hidden-mobile article-nav-prev">
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2015-10-14-vim-quick-locates-file/">Vim 文件快速定位</a>
+            
+        </span>
+    </div>
     
 </article>
 
 
 
 
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2015-10-14-vim-quick-locates-file/" itemprop="url">Vim 文件快速定位</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2015-10-14T05:49:44.000Z" itemprop="datePublished">10月 14 2015</time>
-        </span>
-        
-        
-        <span class="column is-narrow">
-            
-            
-            1 分钟 read (About 216 words)
-        </span>
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <h2 id="find-命令"><a href="#find-命令" class="headerlink" title=":find 命令"></a>:find 命令</h2><p>在 vim 的 path 路径中搜索并打开文件<br>使用方式 :find {file}，可以用 tab 进行补全<br>Linux 中 vim 默认 path</p>
-<!--�10-->
-        <p class="article-more-link">
-            <a href="/2015-10-14-vim-quick-locates-file/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
-    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
-        
-            <a href="/2015-10-13-python-function-args-rule/" itemprop="url">Python 函数的参数规则</a>
-        
-    </h1>
-    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
-        <span class="column is-narrow">
-            <time datetime="2015-10-12T17:26:38.000Z" itemprop="datePublished">10月 13 2015</time>
-        </span>
-        
-        
-        <span class="column is-narrow">
-            
-            
-            2 分钟 read (About 309 words)
-        </span>
-        
-    </div>
-    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
-    
-        <h2 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h2><!--�0-->
-        <p class="article-more-link">
-            <a href="/2015-10-13-python-function-args-rule/#more">Read More</a>
-        </p>
-    
-    </div>
-    
-    
-</article>
-
-
-
-
-    
-    
     </div>
 </section>
     <footer class="footer">
