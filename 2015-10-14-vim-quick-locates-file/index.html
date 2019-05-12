@@ -108,13 +108,13 @@
         
         <div class="navbar-menu navbar-end">
             
-            <a class="navbar-item search" title="Chercher" href="javascript:;">
+            <a class="navbar-item search" title="Search" href="javascript:;">
                 <i class="fas fa-search"></i>
             </a>
             
             
             <div class="navbar-item is-hoverable has-dropdown is-hidden-mobile is-hidden-tablet-only toc">
-                <a class="navbar-item" title="Table des Matières">
+                <a class="navbar-item" title="Table of Contents">
                     <i class="fa fa-list"></i>
                 </a>
                 <div class="navbar-dropdown is-right">
@@ -156,18 +156,18 @@
         <span class="column is-narrow">
             
             
-            1 分钟 lire (À propos 216 mots)
+            1 分钟 read (About 216 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
         <h2 id="find-命令"><a href="#find-命令" class="headerlink" title=":find 命令"></a>:find 命令</h2><p>在 vim 的 path 路径中搜索并打开文件<br>使用方式 :find {file}，可以用 tab 进行补全<br>Linux 中 vim 默认 path</p>
-<figure class="highlight vim hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path=.,/usr/include,,</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path=.,/usr/include,,</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>即会在当前文件所在目录，/usr/include目录以及<strong>当前目录</strong>（vim中cd指定，pwd显示的目录）中搜索。可以用 :set path+={dir} 添加至搜索路径。<br>因为不能递归搜索，所以即使当前目录为项目路径，也不能对所有文件进行搜索。</p>
 <p><strong>解决办法：</strong><br>在 .vimrc 中修改为：</p>
-<figure class="highlight vim hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path=.,/usr/include,**</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">path=.,/usr/include,**</span><br></pre></td></tr></table></figure>
 <p>** 为 vim 中的提供的功能，可以对路径递归搜索，详细见 :h *<br>app/** 表示为对 app/ 下所有路径进行搜索。因为空缺代表当前目录，所以 **就是对当前目录进行递归搜索。</p>
 
     
@@ -374,7 +374,7 @@
     <div class="searchbox-mask"></div>
     <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Que voulez-vous chercher ?">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
             <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="searchbox-result-wrapper ins-section-wrapper">
@@ -388,9 +388,9 @@
             TRANSLATION: {
                 POSTS: 'Posts',
                 PAGES: 'Pages',
-                CATEGORIES: 'Catégories',
+                CATEGORIES: 'Categories',
                 TAGS: 'Tags',
-                UNTITLED: '(Sans Titre)',
+                UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
         };
